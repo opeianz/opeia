@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Opeia — Coming Soon</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;1,9..144,400;1,9..144,500&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F4F0E7;
+    --paper-2:#EFEADD;
+    --ink:#1C1B16;
+    --forest:#233B2A;
+    --sage:#5B6E52;
+    --stone:#B7A98F;
+    --line: rgba(28,27,22,0.14);
+  }
+
+  *{box-sizing:border-box; margin:0; padding:0;}
+
+  html,body{ height:100%; }
+
+  body{
+    font-family:'Inter', sans-serif;
+    color:var(--ink);
+    background:var(--paper);
+    overflow-x:hidden;
+  }
+
+  /* subtle paper grain for sophistication */
+  .grain{
+    position:fixed;
+    inset:0;
+    z-index:1;
+    pointer-events:none;
+    opacity:0.05;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  .page{
+    position:relative;
+    min-height:100vh;
+    display:flex;
+    flex-direction:column;
+    background:
+      radial-gradient(ellipse 900px 500px at 50% -8%, rgba(35,59,42,0.10), transparent 60%),
+      linear-gradient(180deg, var(--paper) 0%, var(--paper-2) 100%);
+  }
+
+  /* ---------- horizon line signature element ---------- */
+  .horizon{
+    position:absolute;
+    left:0; right:0;
+    top:50%;
+    transform:translateY(-50%);
+    z-index:0;
+    pointer-events:none;
+    opacity:0.55;
+  }
+  .horizon svg{ width:100%; height:auto; display:block; }
+  .horizon path{
+    fill:none;
+    stroke:var(--sage);
+    stroke-width:1;
+    stroke-dasharray: 2000;
+    stroke-dashoffset: 2000;
+    animation: draw 5s ease-out forwards 0.4s;
+  }
+  .horizon path.second{ stroke:var(--stone); animation-delay:0.9s; opacity:0.7; }
+  @keyframes draw{ to{ stroke-dashoffset:0; } }
+  @media (prefers-reduced-motion: reduce){
+    .horizon path{ stroke-dashoffset:0; animation:none; }
+  }
+
+  /* ---------- top bar ---------- */
+  .topbar{
+    position:relative;
+    z-index:3;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding: clamp(24px, 4vw, 46px) clamp(24px, 5vw, 64px);
+  }
+
+  .wordmark{
+    font-family:'Fraunces', serif;
+    font-weight:500;
+    font-size: clamp(19px, 1.9vw, 24px);
+    letter-spacing:0.06em;
+    text-transform:uppercase;
+  }
+
+  .eyebrow-nav{
+    font-family:'Inter', sans-serif;
+    font-size: clamp(10px, 0.95vw, 11.5px);
+    letter-spacing:0.16em;
+    text-transform:uppercase;
+    color:var(--ink);
+    opacity:0.62;
+    font-weight:500;
+  }
+
+  /* ---------- center ---------- */
+  .center{
+    position:relative;
+    z-index:3;
+    flex:1;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    padding: clamp(30px, 6vw, 40px) clamp(24px, 6vw, 40px);
+  }
+
+  .made-for{
+    font-family:'Fraunces', serif;
+    font-style:italic;
+    font-weight:400;
+    font-size: clamp(13px, 1.3vw, 16px);
+    color:var(--forest);
+    letter-spacing:0.02em;
+    margin-bottom: clamp(20px, 3vw, 30px);
+    position:relative;
+    padding-bottom:14px;
+  }
+  .made-for::after{
+    content:"";
+    position:absolute;
+    bottom:0; left:50%;
+    transform:translateX(-50%);
+    width:34px; height:1px;
+    background:var(--forest);
+    opacity:0.6;
+  }
+
+  h1{
+    font-family:'Fraunces', serif;
+    font-weight:400;
+    font-size: clamp(46px, 9vw, 118px);
+    line-height:0.98;
+    letter-spacing:-0.01em;
+    color:var(--ink);
+  }
+  h1 .accent{
+    font-style:italic;
+    font-weight:400;
+    color:var(--forest);
+  }
+
+  .vision{
+    margin-top: clamp(28px, 4.5vw, 44px);
+    max-width: 560px;
+    font-family:'Fraunces', serif;
+    font-weight:400;
+    font-size: clamp(16px, 1.5vw, 19px);
+    line-height:1.75;
+    color: rgba(28,27,22,0.82);
+  }
+
+  /* ---------- notify form ---------- */
+  .notify{
+    margin-top: clamp(34px, 5vw, 50px);
+    display:flex;
+    align-items:flex-end;
+    gap:0;
+    width:100%;
+    max-width:380px;
+    border-bottom:1px solid var(--ink);
+    padding-bottom:12px;
+  }
+  .notify input{
+    flex:1;
+    background:transparent;
+    border:none;
+    outline:none;
+    font-family:'Inter', sans-serif;
+    font-weight:400;
+    font-size:14px;
+    letter-spacing:0.01em;
+    color:var(--ink);
+    padding:6px 4px;
+  }
+  .notify input::placeholder{ color: rgba(28,27,22,0.42); }
+  .notify button{
+    background:none;
+    border:none;
+    font-family:'Inter', sans-serif;
+    font-size:11px;
+    font-weight:500;
+    letter-spacing:0.14em;
+    text-transform:uppercase;
+    color:var(--forest);
+    cursor:pointer;
+    padding:6px 4px;
+    white-space:nowrap;
+    transition: opacity 0.2s ease;
+  }
+  .notify button:hover{ opacity:0.6; }
+  .notify button:focus-visible, .notify input:focus-visible{
+    outline:1px solid var(--forest);
+    outline-offset:4px;
+  }
+  .notify-note{
+    margin-top:14px;
+    font-family:'Inter', sans-serif;
+    font-size:10.5px;
+    letter-spacing:0.1em;
+    color: rgba(28,27,22,0.5);
+    text-transform:uppercase;
+  }
+
+  /* ---------- bottom bar ---------- */
+  .bottombar{
+    position:relative;
+    z-index:3;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding: clamp(20px, 3vw, 30px) clamp(24px, 5vw, 64px);
+    border-top:1px solid var(--line);
+    font-family:'Inter', sans-serif;
+    font-size: 10.5px;
+    letter-spacing:0.12em;
+    text-transform:uppercase;
+    color:var(--ink);
+    opacity:0.6;
+  }
+  .bottombar .brand-line{ color:var(--forest); opacity:1; font-weight:500; }
+
+  .bottombar .footer-right{
+    display:flex;
+    align-items:center;
+    gap:18px;
+  }
+
+  .social-link{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    width:26px;
+    height:26px;
+    border-radius:50%;
+    color:var(--ink);
+    opacity:0.7;
+    transition: opacity 0.2s ease, background 0.2s ease, color 0.2s ease;
+  }
+  .social-link svg{ width:14px; height:14px; }
+  .social-link:hover{
+    opacity:1;
+    background:var(--forest);
+    color:var(--paper);
+  }
+  .social-link:focus-visible{
+    outline:1px solid var(--forest);
+    outline-offset:3px;
+  }
+
+  @media (max-width:640px){
+    .bottombar{ flex-direction:column; gap:14px; text-align:center; }
+    .topbar{ flex-direction:column; gap:14px; text-align:center; }
+    h1{ font-size: clamp(40px, 13vw, 64px); }
+    .horizon{ opacity:0.35; }
+  }
+</style>
+</head>
+<body>
+
+<div class="grain"></div>
+
+<div class="page">
+
+  <div class="horizon" aria-hidden="true">
+    <svg viewBox="0 0 1200 200" preserveAspectRatio="none">
+      <path d="M -20 110 C 200 70, 350 150, 550 100 S 900 60, 1220 120"/>
+      <path class="second" d="M -20 140 C 220 170, 400 90, 600 140 S 950 180, 1220 130"/>
+    </svg>
+  </div>
+
+  <header class="topbar">
+    <div class="wordmark">Opeia</div>
+    <div class="eyebrow-nav">Aotearoa New Zealand</div>
+  </header>
+
+  <main class="center">
+    <div class="made-for">made for here.</div>
+
+    <h1>Coming<br><span class="accent">Soon</span></h1>
+
+    <p class="vision">At Opeia our vision is to create clothing that moves with you and adapts to life in Aotearoa. Inspired by our landscapes, changing weather and everyday movement, we create considered pieces made for everywhere in between.</p>
+
+    <form class="notify" id="notifyForm" action="https://formspree.io/f/xzepkbvw" method="POST">
+      <input type="email" name="email" placeholder="Email address" required aria-label="Email address">
+      <input type="hidden" name="_subject" value="New Opeia signup">
+      <button type="submit">Notify me</button>
+    </form>
+    <div class="notify-note" id="notifyNote">Be first to know when we launch</div>
+  </main>
+
+  <footer class="bottombar">
+    <span class="brand-line">Opeia</span>
+    <div class="footer-right">
+      <span>&copy; 2026 Opeia — All rights reserved</span>
+      <a class="social-link" href="https://www.instagram.com/opeianz/?hl=en" target="_blank" rel="noopener noreferrer" aria-label="Opeia on Instagram">
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="2.5" y="2.5" width="19" height="19" rx="5" stroke="currentColor" stroke-width="1.6"/>
+          <circle cx="12" cy="12" r="4.3" stroke="currentColor" stroke-width="1.6"/>
+          <circle cx="17.3" cy="6.7" r="1.1" fill="currentColor"/>
+        </svg>
+      </a>
+    </div>
+  </footer>
+
+</div>
+
+<script>
+  const notifyForm = document.getElementById('notifyForm');
+  const notifyNote = document.getElementById('notifyNote');
+
+  notifyForm.addEventListener('submit', async function(event){
+    event.preventDefault();
+    const emailInput = notifyForm.querySelector('input[type="email"]');
+    const email = emailInput.value;
+
+    notifyNote.textContent = "Sending...";
+
+    try{
+      const response = await fetch(notifyForm.action, {
+        method: 'POST',
+        body: new FormData(notifyForm),
+        headers: { 'Accept': 'application/json' }
+      });
+
+      if(response.ok){
+        notifyNote.textContent = "Thank you — we'll email " + email + " at launch";
+        notifyForm.reset();
+      } else {
+        notifyNote.textContent = "Something went wrong — please try again";
+      }
+    } catch(err){
+      notifyNote.textContent = "Something went wrong — please try again";
+    }
+  });
+</script>
+
+</body>
+</html>
